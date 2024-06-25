@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta author="https://alisher-sodiqov.netlify.app">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+    <style>
+        #docx-viewer {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+            background-color: white;
+            padding: 20px;
+            overflow-y: auto;
+        }
+    </style>
+    <title>Answer Biznes</title>
+</head>
+
+<body class="w-100 min-vh-100 d-flex justify-content-center align-items-center bg-dark">
+    <div style="display: flex; flex-direction: column;" class="bg">
+       
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="/GOST.docx" download class="btn btn-success m-3 w-100">
+                upload file
+            </a>
+            <button id="view-button" class="btn btn-success m-3 w-100">
+                open on the site
+            </button>
+        </div>
+        <div id="docx-viewer" class="bg-light d-none"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script>
+        document.getElementById('view-button').addEventListener('click', function () {
+            const fileUrl = './biznes.docx';
+
+            fetch(fileUrl)
+                .then(response => response.arrayBuffer())
+                .then(arrayBuffer => mammoth.convertToHtml({ arrayBuffer: arrayBuffer }))
+                .then(result => {
+                    const viewer = document.getElementById('docx-viewer');
+                    viewer.innerHTML = result.value;
+                    viewer.classList.remove('d-none');
+                })
+                .catch(error => alert('Failed to load the document.'));
+        });
+    </script>
+</body>
+
+</html>
